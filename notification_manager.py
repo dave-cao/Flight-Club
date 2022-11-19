@@ -46,7 +46,7 @@ class NotificationManager:
                 connection.sendmail(
                     from_addr=os.environ["MY_EMAIL"],
                     to_addrs=user["email"],
-                    msg=f"Subject:New Low Price Flight!\n\nHey {user["firstName"]}!\n\n{self.message}\n{flight_link}".encode(
+                    msg=f"Subject:New Low Price Flight!\n\nHey {user['firstName']}!\n\n{self.message}\n{flight_link}".encode(
                         "utf-8"
                     ),
                 )
