@@ -1,8 +1,8 @@
 # Flight Club
 
-Google Sheets Data Management: https://sheety.co/
-Kiwi Partners Flight Search API: https://partners.kiwi.com/
-Twilio SMS API: https://www.twilio.com/docs/sms
+1. Google Sheets Data Management: https://sheety.co/
+2. Kiwi Partners Flight Search API: https://partners.kiwi.com/
+3. Twilio SMS API: https://www.twilio.com/docs/sms
 
 Search through a list of cities from a google docs sheet. Each city row
 contains a record low price. 
