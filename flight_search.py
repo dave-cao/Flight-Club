@@ -1,11 +1,14 @@
+import datetime
 import os
-from datetime import datetime
 
 import requests
 from dateutil.relativedelta import relativedelta
 
-TODAY = datetime.today()
+TODAY = datetime.datetime.today()
+TOMORROW = TODAY + datetime.timedelta(days=1)
 SIX_MONTHS_LATER = TODAY + relativedelta(months=+6)
+SEVEN_DAYS_LATER = TODAY + datetime.timedelta(days=7)
+TWENTY_EIGHT_DAYS_LATER = TODAY + datetime.timedelta(days=28)
 
 
 class FlightSearch:
@@ -45,13 +48,16 @@ class FlightSearch:
         search_params = {
             "fly_from": "YEG",
             "fly_to": fly_to,
-            "date_from": f"{TODAY.strftime('%d/%m/%Y')}",
+            "date_from": f"{TOMORROW.strftime('%d/%m/%Y')}",
             "date_to": f"{SIX_MONTHS_LATER.strftime('%d/%m/%Y')}",
-            "curr": "CAD"
+            "curr": "CAD",
+            "nights_in_dst_from": 7,
+            "nights_in_dst_to": 28,
             # "price_to": "",
         }
 
         response = requests.get(
             url=search_endpoint, headers=self.FLIGHT_HEADER, params=search_params
         )
+        print(f"Got flight data for YEG --> {fly_to}")
         return response.json()["data"]

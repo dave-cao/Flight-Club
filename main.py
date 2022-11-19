@@ -22,19 +22,19 @@ def populate_IATA():
     data.update_cities(cities)
 
 
-# Use flight search api to check for hte cheapest flights from tomorrow
-# to 6 months laters for all the cities in the Google Sheet
+def check_cheapest_flights():
+    for city in cities:
+        flight_data = FlightData(flight_search.get_flights(city["iataCode"]))
+        cheapest_flight = flight_data.get_cheapest_flight()
+        cheapest_flight["stopovers"] = flight_data.get_stopovers()
+        cheapest_flight["depart_return"] = flight_data.get_departure_and_return()
 
-# If the price is lower than the lowest price listed in the Google sheet
-# then send an SMS to your own number with the Twilio API
+        if cheapest_flight["price"] < city["lowestPrice"]:
+            notification_manager = NotificationManager(cheapest_flight)
+            # notification_manager.send_text()
+            # get user data and send them email if cheap flight found
+            users = data.get_users()
+            notification_manager.send_email(users)
 
-for city in cities:
-    cheapest = sys.maxsize
-    cheapest_flight = None
-    flight_data = FlightData(flight_search.get_flights(city["iataCode"]))
-    cheapest_flight = flight_data.get_cheapest_flight()
 
-    if cheapest_flight["price"] < city["lowestPrice"]:
-        # send notification if cheap flight found
-        notification_manager = NotificationManager(cheapest_flight)
-        notification_manager.send_notification()
+check_cheapest_flights()
